@@ -1,0 +1,22 @@
+##import turtle
+##turtle.pencolor("blue")
+##turtle.left(35)
+##turtle.forward(300)
+##turtle.pencolor("green")
+##turtle.left(145)
+##turtle.forward(300)
+##turtle.pencolor("purple")
+##turtle.left(145)
+##turtle.forward(300)
+##turtle.pencolor("yellow")
+##turtle.left(145)
+##turtle.forward(300)
+##turtle.pencolor("red")
+##turtle.left(142.5)
+##turtle.forward(299)
+##turtle.penup()
+##turtle.forward(15)
+##
+##import turtle
+##turtle.register_shape("shape", ((20,30), (20,50), (-20,50), (-20,30),(0,0) ))
+##turtle.shape("shape")
