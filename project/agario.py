@@ -81,7 +81,7 @@ def check_collision():
                     ballb.r=new_r
                     ballb.color(new_color, new_color)
                     ballb.shapesize(ballb.r/10)
-                    balla.r+= 10
+                    balla.r+= 5
                     balla.shapesize(balla.r/10)
                 elif ballb.r>balla.r:
                     balla.goto(new_x, new_y)
@@ -90,7 +90,7 @@ def check_collision():
                     balla.r=new_r
                     balla.color(new_color, new_color)
                     balla.shapesize(balla.r/10)
-                    ballb.r+= 10
+                    ballb.r+= 5
                     ballb.shapesize(ballb.r/10)
 
 
@@ -103,7 +103,7 @@ def check_myball_collision():
                     return False
                 elif MY_BALL.r>balla.r:
                     global score
-                    MY_BALL.r+=10
+                    MY_BALL.r+=5
                     MY_BALL.shapesize(MY_BALL.r/10)
                     balla.goto(new_x, new_y)
                     balla.dx=random.randint(MINIMUM_BALL_DX,MAXIMUM_BALL_DX)
@@ -111,7 +111,9 @@ def check_myball_collision():
                     balla.r=random.randint(MINIMUM_BALL_RADIUS,MAXIMUM_BALL_RADIUS)
                     balla.color(random.random(), random.random(), random.random())
                     balla.shapesize(balla.r/10)
-                    score=score+1
+                    score=score+balla.r*2
+                    print(balla.r)
+                    print(score)
     return True
 
 def movearound(event):
@@ -121,9 +123,7 @@ turtle.getcanvas().bind("<Motion>",movearound)
 turtle.getscreen().listen()
 
 writer.penup()
-writer.goto(100,-250)
-
-
+writer.goto(50,-250)
 
 level = 1
     
@@ -133,7 +133,7 @@ while RUNNING:
         SCREEN_HEIGHT=int(turtle.getcanvas().winfo_height()/2)
 
     writer.clear()
-    writer.write("your score is "+str(score), font=("Arial", 20, "normal"))
+    writer.write("your score (diameter sum) is "+str(score), font=("Arial", 17, "normal"))
     if  MY_BALL.r>SCREEN_WIDTH:
         writer1.write("you won! in next level all the other balls will move faster!", font=("Arial",17, "normal"),align="center")
         time.sleep(3)
@@ -145,7 +145,7 @@ while RUNNING:
         MY_BALL.color("cyan")
         MY_BALL.shapesize(MY_BALL.r/10)
         level+=1
-        MINIMUM_BALL_DX *= level
+        MINIMUM_BALL_DX*= level
         MAXIMUM_BALL_DX*= level
         MINIMUM_BALL_DY*= level
         MAXIMUM_BALL_DY*= level
@@ -160,13 +160,6 @@ while RUNNING:
 
 
 turtle.write("Game Over", font=("Arial", 42, "normal"),align="center")
+time.sleep(2)
+quitgame()
 turtle.mainloop()
-
-
-
-
-
-
-
-
-    
