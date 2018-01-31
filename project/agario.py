@@ -5,41 +5,39 @@ from ball import Ball
 import math
 
 
-#turtle.tracer(0,1)
+turtle.tracer(0)
 turtle.hideturtle()
+writer=turtle.clone()
+writer1=turtle.clone()
 
 RUNNING=True
+ALIVE = True
 SLEEP=0.0077
 SCREEN_WIDTH=int(turtle.getcanvas().winfo_width()/2)
 SCREEN_HEIGHT=int(turtle.getcanvas().winfo_height()/2)
 
-turtle.color("blue")
+turtle.color("black")
 turtle.write("eat smaller balls to get bigger. if you want to quit, just press the space bar", font = ("Ariel", 12), align="center")
 time.sleep(2)
 turtle.clear()
 
-MY_BALL=Ball(2,2,1,1,30,"blue")
+MY_BALL=Ball(2,2,1,1,20,"cyan2")
 
-NUMBERS_OF_BALLS=6
+NUMBERS_OF_BALLS=5
 MINIMUM_BALL_RADIUS=10
-MAXIMUM_BALL_RADIUS=50
-MINIMUM_BALL_DX=-5
-MAXIMUM_BALL_DX=5
-MINIMUM_BALL_DY=-5
-MAXIMUM_BALL_DY=5
+MAXIMUM_BALL_RADIUS=30
+MINIMUM_BALL_DX=-2
+MAXIMUM_BALL_DX=2
+MINIMUM_BALL_DY=-2
+MAXIMUM_BALL_DY=2
 
 SPACEBAR="space"
 def quitgame():
     turtle.bye()
-turtle.onkeypress(quitgame,SPACEBAR)
+turtle.onkeypress(quitgame,"space")
 turtle.listen()
 
-
-##turtle1=turtle.Turtle()
-##turtle1.hideturtle()
-##turtle1.goto(0,50)
-##turtle1.color("black")
-##turtle1.write("eaten balls", font = ("Ariel", 12), align="left")
+score=0
 
 balls=[]
 for i in range(NUMBERS_OF_BALLS):
@@ -65,7 +63,6 @@ def collide(ball1,ball2):
     else:
         return False
 
-##eatenballs=0
 def check_collision():
     for balla in balls:
         for ballb in balls:
@@ -86,7 +83,6 @@ def check_collision():
                     ballb.shapesize(ballb.r/10)
                     balla.r+= 10
                     balla.shapesize(balla.r/10)
-##                    eatenballs+=1
                 elif ballb.r>balla.r:
                     balla.goto(new_x, new_y)
                     balla.dx=new_dx
@@ -96,7 +92,6 @@ def check_collision():
                     balla.shapesize(balla.r/10)
                     ballb.r+= 10
                     ballb.shapesize(ballb.r/10)
-##                    eatenballs+=1
 
 
 def check_myball_collision():
@@ -107,6 +102,7 @@ def check_myball_collision():
                 if balla.r>MY_BALL.r:
                     return False
                 elif MY_BALL.r>balla.r:
+                    global score
                     MY_BALL.r+=10
                     MY_BALL.shapesize(MY_BALL.r/10)
                     balla.goto(new_x, new_y)
@@ -115,7 +111,7 @@ def check_myball_collision():
                     balla.r=random.randint(MINIMUM_BALL_RADIUS,MAXIMUM_BALL_RADIUS)
                     balla.color(random.random(), random.random(), random.random())
                     balla.shapesize(balla.r/10)
-##                    eatenballs+=1
+                    score=score+1
     return True
 
 def movearound(event):
@@ -124,18 +120,42 @@ def movearound(event):
 turtle.getcanvas().bind("<Motion>",movearound)
 turtle.getscreen().listen()
 
+writer.penup()
+writer.goto(100,-250)
+
+
+
+level = 1
+    
 while RUNNING:
     if SCREEN_WIDTH!=int(turtle.getcanvas().winfo_width()/2) or SCREEN_HEIGHT!=int(turtle.getcanvas().winfo_height()/2):
         SCREEN_WIDTH=int(turtle.getcanvas().winfo_width()/2)
         SCREEN_HEIGHT=int(turtle.getcanvas().winfo_height()/2)
 
-    
+    writer.clear()
+    writer.write("your score is "+str(score), font=("Arial", 20, "normal"))
+    if  MY_BALL.r>SCREEN_WIDTH:
+        writer1.write("you won! in next level all the other balls will move faster!", font=("Arial",17, "normal"),align="center")
+        time.sleep(3)
+        writer1.clear()
+        MY_BALL.goto(0,0)
+        MY_BALL.dx=1
+        MY_BALL.dy=1
+        MY_BALL.r=20
+        MY_BALL.color("cyan")
+        MY_BALL.shapesize(MY_BALL.r/10)
+        level+=1
+        MINIMUM_BALL_DX *= level
+        MAXIMUM_BALL_DX*= level
+        MINIMUM_BALL_DY*= level
+        MAXIMUM_BALL_DY*= level
+        
     for i in balls:
         i.move(SCREEN_WIDTH,SCREEN_HEIGHT)
     check_collision()
     MY_BALL.move(SCREEN_WIDTH,SCREEN_HEIGHT)
     RUNNING = check_myball_collision()
-    turtle.getscreen().update()
+    turtle.update()
     time.sleep(SLEEP)
 
 
