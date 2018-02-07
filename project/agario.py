@@ -1,3 +1,4 @@
+
 import turtle
 import time
 import random
@@ -17,7 +18,7 @@ SCREEN_WIDTH=int(turtle.getcanvas().winfo_width()/2)
 SCREEN_HEIGHT=int(turtle.getcanvas().winfo_height()/2)
 
 turtle.color("black")
-turtle.write("eat smaller balls to get bigger. if you want to quit, just press the space bar", font = ("Ariel", 12), align="center")
+turtle.write("Eat smaller balls to get bigger. If you want to quit, just press the space bar", font = ("Ariel", 12), align="center")
 time.sleep(2)
 turtle.clear()
 
@@ -45,6 +46,9 @@ for i in range(NUMBERS_OF_BALLS):
     y=random.randint(-SCREEN_HEIGHT+MAXIMUM_BALL_RADIUS,SCREEN_HEIGHT-MAXIMUM_BALL_RADIUS)
     dx=random.randint(MINIMUM_BALL_DX,MAXIMUM_BALL_DX)
     dy=random.randint(MINIMUM_BALL_DY,MAXIMUM_BALL_DY)
+    while(dx == 0 and dy ==0):
+        dx=random.randint(MINIMUM_BALL_DX,MAXIMUM_BALL_DX)
+        dy=random.randint(MINIMUM_BALL_DY,MAXIMUM_BALL_DY)
     radius=random.randint(MINIMUM_BALL_RADIUS,MAXIMUM_BALL_RADIUS)
     color=(random.random(), random.random(), random.random())
     ball=Ball(x,y,dx,dy,radius,color)
@@ -71,6 +75,9 @@ def check_collision():
                 new_y = random.randint(-SCREEN_HEIGHT+MAXIMUM_BALL_RADIUS,SCREEN_HEIGHT-MAXIMUM_BALL_RADIUS)
                 new_dx = random.randint(MINIMUM_BALL_DX,MAXIMUM_BALL_DX)
                 new_dy = random.randint(MINIMUM_BALL_DY,MAXIMUM_BALL_DY)
+                while(new_dx == 0 and new_dy ==0):
+                    dx=random.randint(MINIMUM_BALL_DX,MAXIMUM_BALL_DX)
+                    dy=random.randint(MINIMUM_BALL_DY,MAXIMUM_BALL_DY)
                 new_r = random.randint(MINIMUM_BALL_RADIUS,MAXIMUM_BALL_RADIUS)
                 new_color = (random.random(), random.random(), random.random())
                 
@@ -108,11 +115,13 @@ def check_myball_collision():
                     balla.goto(new_x, new_y)
                     balla.dx=random.randint(MINIMUM_BALL_DX,MAXIMUM_BALL_DX)
                     balla.dy=random.randint(MINIMUM_BALL_DY,MAXIMUM_BALL_DY)
+                    while(balla.dx == 0 and balla.dy ==0):
+                        dx=random.randint(MINIMUM_BALL_DX,MAXIMUM_BALL_DX)
+                        dy=random.randint(MINIMUM_BALL_DY,MAXIMUM_BALL_DY)
                     balla.r=random.randint(MINIMUM_BALL_RADIUS,MAXIMUM_BALL_RADIUS)
                     balla.color(random.random(), random.random(), random.random())
                     balla.shapesize(balla.r/10)
-                    score=score+balla.r*2
-                    print(balla.r)
+                    score=score+1
                     print(score)
     return True
 
@@ -133,9 +142,9 @@ while RUNNING:
         SCREEN_HEIGHT=int(turtle.getcanvas().winfo_height()/2)
 
     writer.clear()
-    writer.write("your score (diameter sum) is "+str(score), font=("Arial", 17, "normal"))
+    writer.write("your score is "+str(score), font=("Arial", 17, "normal"))
     if  MY_BALL.r>SCREEN_WIDTH:
-        writer1.write("you won! in next level all the other balls will move faster!", font=("Arial",17, "normal"),align="center")
+        writer1.write("You won! In next level all the other balls will move faster!", font=("Arial",17, "normal"),align="center")
         time.sleep(3)
         writer1.clear()
         MY_BALL.goto(0,0)
@@ -153,7 +162,7 @@ while RUNNING:
     for i in balls:
         i.move(SCREEN_WIDTH,SCREEN_HEIGHT)
     check_collision()
-    MY_BALL.move(SCREEN_WIDTH,SCREEN_HEIGHT)
+    #MY_BALL.move(SCREEN_WIDTH,SCREEN_HEIGHT)
     RUNNING = check_myball_collision()
     turtle.update()
     time.sleep(SLEEP)
